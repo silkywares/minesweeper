@@ -3,18 +3,19 @@ from pygame.math import Vector2
 import numpy
 import random
 
-SCREEN_DIM = 512
-CELL_DIM = 32
+GRID_DIM = 1024
+CELL_DIM = 64
+PADDING = 64
 
 def draw_grid():
-    line_count = SCREEN_DIM / CELL_DIM
+    line_count = GRID_DIM / CELL_DIM
 
     for i in range(int(line_count)):
-        pygame.draw.line(screen, "black", ((i*CELL_DIM)+CELL_DIM,0), ((i*CELL_DIM)+CELL_DIM,SCREEN_DIM), 1)
-        pygame.draw.line(screen, "black", (0,(i*CELL_DIM)+CELL_DIM), (SCREEN_DIM,(i*CELL_DIM)+CELL_DIM), 1)
+        pygame.draw.line(screen, "black", ((i*CELL_DIM)+CELL_DIM,PADDING), ((i*CELL_DIM)+CELL_DIM,GRID_DIM), 1)
+        pygame.draw.line(screen, "black", (PADDING,(i*CELL_DIM)+CELL_DIM), (GRID_DIM,(i*CELL_DIM)+CELL_DIM), 1)
 
 def grid_vector_randomizer():
-    size = int(SCREEN_DIM / CELL_DIM)
+    size = int(GRID_DIM / CELL_DIM)
     grid = []
     for y in range(size):
         row = []
@@ -30,17 +31,17 @@ def perlin_noise(grid):
         for x in range(len(grid[y])):
             angle = grid[y][x]                  # get the stored angle
             text_surface = font.render(f"{int(angle)}", True, (0, 0, 0))
-            screen.blit(text_surface, (x*CELL_DIM-9, y*CELL_DIM-9))
+            screen.blit(text_surface, (x*CELL_DIM-9+PADDING, y*CELL_DIM-9+PADDING))
 
 pygame.init()
-screen = pygame.display.set_mode((SCREEN_DIM,SCREEN_DIM))
+screen = pygame.display.set_mode((GRID_DIM+PADDING,GRID_DIM+PADDING))
 clock = pygame.time.Clock()
 running = True 
-font = pygame.font.Font(None, 18)
+font = pygame.font.Font(None, 24)
 
 grid_numbers = grid_vector_randomizer()
 
-screen.fill("tan")
+#screen.fill("tan")
 
 while running:
 
