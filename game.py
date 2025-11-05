@@ -27,11 +27,18 @@ def grid_vector_randomizer():
     return grid
 
 def perlin_noise(grid):
+    arrow_length = 32
     for y in range(len(grid)):
         for x in range(len(grid[y])):
             angle = grid[y][x]                  # get the stored angle
-            text_surface = font.render(f"{int(angle)}", True, (0, 0, 0))
-            screen.blit(text_surface, (x*CELL_DIM-9+PADDING, y*CELL_DIM-9+PADDING))
+
+            start = Vector2(x*CELL_DIM+PADDING, y*CELL_DIM+PADDING)
+            end = start + Vector2(1, 0).rotate(-angle) * arrow_length
+            pygame.draw.line(screen, "white", start, end, 3)
+
+            #angle_text = font.render(f"{int(angle)}", True, (0, 0, 0))
+            #screen.blit(angle_text, (x*CELL_DIM-9+PADDING, y*CELL_DIM-9+PADDING))
+            
 
 pygame.init()
 screen = pygame.display.set_mode((GRID_DIM+PADDING,GRID_DIM+PADDING))
